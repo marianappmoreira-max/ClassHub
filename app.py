@@ -13,10 +13,13 @@ from database import (
 )
 
 
+# Criar banco
+
 criar_tabelas()
 
 
-# Controle de sessão
+
+# Sessão
 
 if "usuario_logado" not in st.session_state:
     st.session_state.usuario_logado = None
@@ -25,12 +28,15 @@ if "tipo_usuario" not in st.session_state:
     st.session_state.tipo_usuario = None
 
 
+
 def logout():
 
     st.session_state.usuario_logado = None
     st.session_state.tipo_usuario = None
 
 
+
+# Configuração
 
 st.set_page_config(
     page_title="ClassHub",
@@ -53,6 +59,8 @@ if buscar_usuario("professora") is None:
 
 
 
+# Cabeçalho
+
 st.title("📚 ClassHub")
 
 st.write(
@@ -61,7 +69,7 @@ st.write(
 
 
 
-# Mostrar sessão
+# Usuário logado
 
 if st.session_state.usuario_logado:
 
@@ -76,8 +84,9 @@ if st.session_state.usuario_logado:
 
 
 
-st.sidebar.title("Menu")
+# Menu
 
+st.sidebar.title("Menu")
 
 opcao = st.sidebar.selectbox(
     "Escolha uma opção:",
@@ -90,11 +99,13 @@ opcao = st.sidebar.selectbox(
 
 
 
-# Início
+# INÍCIO
 
 if opcao == "Início":
 
-    st.header("Bem-vindo ao ClassHub")
+    st.header(
+        "Bem-vindo ao ClassHub"
+    )
 
     st.write(
         """
@@ -103,7 +114,7 @@ if opcao == "Início":
         Aqui você poderá:
 
         - Gerenciar alunos
-        - Criar atividades
+        - Criar aulas
         - Acompanhar evolução
         - Organizar materiais
         """
@@ -111,11 +122,13 @@ if opcao == "Início":
 
 
 
-# Professor
+# PROFESSOR
 
 elif opcao == "Área do Professor":
 
-    st.header("👩‍🏫 Área do Professor")
+    st.header(
+        "👩‍🏫 Área do Professor"
+    )
 
 
     senha = st.text_input(
@@ -124,7 +137,9 @@ elif opcao == "Área do Professor":
     )
 
 
-    professora = buscar_usuario("professora")
+    professora = buscar_usuario(
+        "professora"
+    )
 
 
     if professora and proteger_senha(senha) == professora[3]:
@@ -148,6 +163,9 @@ elif opcao == "Área do Professor":
             ]
         )
 
+
+
+        # Cadastrar aluno
 
         if opcao_professor == "Cadastrar aluno":
 
@@ -176,11 +194,14 @@ elif opcao == "Área do Professor":
                     "aluno"
                 )
 
+
                 st.success(
                     "Aluno cadastrado com sucesso!"
                 )
 
 
+
+        # Ver alunos
 
         elif opcao_professor == "Ver alunos":
 
@@ -208,6 +229,8 @@ elif opcao == "Área do Professor":
 
 
 
+        # Cadastrar aula
+
         elif opcao_professor == "Cadastrar aula":
 
             st.subheader(
@@ -220,7 +243,7 @@ elif opcao == "Área do Professor":
 
             if alunos:
 
-                nomes_alunos = {
+                alunos_dict = {
                     aluno[1]: aluno[0]
                     for aluno in alunos
                 }
@@ -228,7 +251,7 @@ elif opcao == "Área do Professor":
 
                 aluno_escolhido = st.selectbox(
                     "Escolha o aluno:",
-                    nomes_alunos.keys()
+                    alunos_dict.keys()
                 )
 
 
@@ -247,10 +270,12 @@ elif opcao == "Área do Professor":
                 )
 
 
-                if st.button("Salvar aula"):
+                if st.button(
+                    "Salvar aula"
+                ):
 
                     adicionar_aula(
-                        nomes_alunos[aluno_escolhido],
+                        alunos_dict[aluno_escolhido],
                         data,
                         conteudo,
                         observacao
@@ -269,6 +294,8 @@ elif opcao == "Área do Professor":
                 )
 
 
+
+        # Ver aulas
 
         elif opcao_professor == "Ver aulas":
 
@@ -298,6 +325,7 @@ elif opcao == "Área do Professor":
 """
                     )
 
+
             else:
 
                 st.info(
@@ -314,7 +342,7 @@ elif opcao == "Área do Professor":
 
 
 
-# Aluno
+# ALUNO
 
 elif opcao == "Área do Aluno":
 
@@ -323,70 +351,29 @@ elif opcao == "Área do Aluno":
     )
 
 
-    usuario = st.text_input(
-        "Usuário"
-    )
+    if st.session_state.tipo_usuario == "aluno":
+
+        st.success(
+            f"Bem-vindo, {st.session_state.usuario_logado}!"
+        )
 
 
-    senha = st.text_input(
-        "Senha",
-        type="password"
-    )
+        st.subheader(
+            "📚 Minhas aulas"
+        )
 
 
-    if st.button("Entrar"):
-
-        aluno = buscar_usuario(usuario)
-
-
-        if aluno and proteger_senha(senha) == aluno[3] and aluno[4] == "aluno":
-
-            st.session_state.usuario_logado = aluno[1]
-            st.session_state.tipo_usuario = aluno[4]
-
-            st.rerun()
+        aulas = buscar_aulas_por_usuario(
+            st.session_state.usuario_logado
+        )
 
 
-        else:
+        if aulas:
 
-            st.error(
-                "Usuário ou senha incorretos."
-            )
+            for aula in aulas:
 
-
-
-# Painel do aluno logado
-
-if (
-    st.session_state.tipo_usuario == "aluno"
-):
-
-    st.header(
-        "🎓 Área do Aluno"
-    )
-
-
-    st.success(
-        f"Bem-vindo, {st.session_state.usuario_logado}!"
-    )
-
-
-    st.subheader(
-        "📚 Minhas aulas"
-    )
-
-
-    aulas = buscar_aulas_por_usuario(
-        st.session_state.usuario_logado
-    )
-
-
-    if aulas:
-
-        for aula in aulas:
-
-            st.write(
-                f"""
+                st.write(
+                    f"""
 📅 Data: {aula[0]}
 
 📖 Conteúdo: {aula[1]}
@@ -395,10 +382,49 @@ if (
 
 ---
 """
+                )
+
+
+        else:
+
+            st.info(
+                "Você ainda não possui aulas cadastradas."
             )
+
 
     else:
 
-        st.info(
-            "Você ainda não possui aulas cadastradas."
+        usuario = st.text_input(
+            "Usuário"
         )
+
+
+        senha = st.text_input(
+            "Senha",
+            type="password"
+        )
+
+
+        if st.button(
+            "Entrar"
+        ):
+
+
+            aluno = buscar_usuario(
+                usuario
+            )
+
+
+            if aluno and proteger_senha(senha) == aluno[3] and aluno[4] == "aluno":
+
+                st.session_state.usuario_logado = aluno[1]
+                st.session_state.tipo_usuario = aluno[4]
+
+                st.rerun()
+
+
+            else:
+
+                st.error(
+                    "Usuário ou senha incorretos."
+                )
