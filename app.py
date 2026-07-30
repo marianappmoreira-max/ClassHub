@@ -2,9 +2,11 @@ import streamlit as st
 from database import carregar_usuarios
 
 # Carregar usuários
-def carregar_usuarios():
-    with open("dados/usuarios.json", "r", encoding="utf-8") as arquivo:
-        return json.load(arquivo)
+import streamlit as st
+from database import carregar_usuarios
+
+
+usuarios = carregar_usuarios()
 
 
 usuarios = carregar_usuarios()
