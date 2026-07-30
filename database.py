@@ -79,3 +79,16 @@ def listar_alunos():
     conexao.close()
 
     return resultado
+
+def atualizar_senha(usuario, nova_senha):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        UPDATE usuarios
+        SET senha = ?
+        WHERE usuario = ?
+    """, (proteger_senha(nova_senha), usuario))
+
+    conexao.commit()
+    conexao.close()
