@@ -10,20 +10,8 @@ from database import (
     proteger_senha
 )
 
+
 criar_tabelas()
-
-
-
-
-
-# Criar professora padrão caso não exista
-if buscar_usuario("professora") is None:
-    adicionar_usuario(
-        "Professora",
-        "professora",
-        "1234",
-        "professor"
-    )
 
 
 # Configuração da página
@@ -32,6 +20,17 @@ st.set_page_config(
     page_icon="📚",
     layout="centered"
 )
+
+
+# Criar professora padrão caso não exista
+if buscar_usuario("professora") is None:
+
+    adicionar_usuario(
+        "Professora",
+        "professora",
+        "1234",
+        "professor"
+    )
 
 
 # Título
@@ -93,19 +92,22 @@ elif opcao == "Área do Professor":
 
 
         opcao_professor = st.selectbox(
-    "Escolha uma opção:",
-    [
-        "Cadastrar aluno",
-        "Ver alunos",
-        "Cadastrar aula"
-    ]
-)
+            "Escolha uma opção:",
+            [
+                "Cadastrar aluno",
+                "Ver alunos",
+                "Cadastrar aula"
+            ]
+        )
 
 
+        # Cadastro de aluno
         if opcao_professor == "Cadastrar aluno":
 
             nome = st.text_input("Nome do aluno")
+
             usuario = st.text_input("Usuário")
+
             senha_aluno = st.text_input(
                 "Senha do aluno",
                 type="password"
@@ -121,9 +123,12 @@ elif opcao == "Área do Professor":
                     "aluno"
                 )
 
-                st.success("Aluno cadastrado com sucesso!")
+                st.success(
+                    "Aluno cadastrado com sucesso!"
+                )
 
 
+        # Ver alunos
         elif opcao_professor == "Ver alunos":
 
             st.subheader("Alunos cadastrados")
@@ -141,63 +146,69 @@ elif opcao == "Área do Professor":
 
             else:
 
-                st.info("Nenhum aluno cadastrado.")
-                elif opcao_professor == "Cadastrar aula":
-
-    st.subheader("📚 Cadastrar aula")
-
-
-    alunos = listar_alunos_com_id()
+                st.info(
+                    "Nenhum aluno cadastrado."
+                )
 
 
-    if alunos:
+        # Cadastrar aula
+        elif opcao_professor == "Cadastrar aula":
 
-        nomes_alunos = {
-            aluno[1]: aluno[0]
-            for aluno in alunos
-        }
+            st.subheader("📚 Cadastrar aula")
 
 
-        aluno_escolhido = st.selectbox(
-            "Escolha o aluno:",
-            nomes_alunos.keys()
-        )
+            alunos = listar_alunos_com_id()
 
 
-        data = st.text_input(
-            "Data da aula"
-        )
+            if alunos:
+
+                nomes_alunos = {
+                    aluno[1]: aluno[0]
+                    for aluno in alunos
+                }
 
 
-        conteudo = st.text_input(
-            "Conteúdo estudado"
-        )
+                aluno_escolhido = st.selectbox(
+                    "Escolha o aluno:",
+                    nomes_alunos.keys()
+                )
 
 
-        observacao = st.text_area(
-            "Observações"
-        )
+                data = st.text_input(
+                    "Data da aula"
+                )
 
 
-        if st.button("Salvar aula"):
-
-            adicionar_aula(
-                nomes_alunos[aluno_escolhido],
-                data,
-                conteudo,
-                observacao
-            )
-
-            st.success(
-                "Aula cadastrada com sucesso!"
-            )
+                conteudo = st.text_input(
+                    "Conteúdo estudado"
+                )
 
 
-    else:
+                observacao = st.text_area(
+                    "Observações"
+                )
 
-        st.info(
-            "Cadastre um aluno primeiro."
-        )
+
+                if st.button("Salvar aula"):
+
+                    adicionar_aula(
+                        nomes_alunos[aluno_escolhido],
+                        data,
+                        conteudo,
+                        observacao
+                    )
+
+
+                    st.success(
+                        "Aula cadastrada com sucesso!"
+                    )
+
+
+            else:
+
+                st.info(
+                    "Cadastre um aluno primeiro."
+                )
 
 
     elif senha:
@@ -211,7 +222,10 @@ elif opcao == "Área do Aluno":
 
     st.header("🎓 Área do Aluno")
 
-    usuario = st.text_input("Usuário")
+    usuario = st.text_input(
+        "Usuário"
+    )
+
 
     senha = st.text_input(
         "Senha",
@@ -226,10 +240,17 @@ elif opcao == "Área do Aluno":
 
         if aluno and proteger_senha(senha) == aluno[3] and aluno[4] == "aluno":
 
-            st.success(f"Bem-vindo, {aluno[1]}!")
+            st.success(
+                f"Bem-vindo, {aluno[1]}!"
+            )
 
-            st.write("Área do aluno em construção.")
+            st.write(
+                "Área do aluno em construção."
+            )
+
 
         else:
 
-            st.error("Usuário ou senha incorretos.")
+            st.error(
+                "Usuário ou senha incorretos."
+            )
