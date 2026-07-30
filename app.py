@@ -58,7 +58,9 @@ elif opcao == "Área do Professor":
         type="password"
     )
 
-    if senha == usuarios["professora"]["senha"]:
+    professora = buscar_usuario("professora")
+
+if professora and senha == professora[3]:
         st.success("Login realizado!")
 
         st.subheader("Painel do Professor")
