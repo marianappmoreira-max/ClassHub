@@ -11,7 +11,6 @@ def proteger_senha(senha):
     ).hexdigest()
 
 
-
 def conectar():
     return sqlite3.connect(BANCO)
 
@@ -31,16 +30,16 @@ def criar_tabelas():
     """)
 
     cursor.execute("""
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS aulas (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        aluno_id INTEGER NOT NULL,
-        data TEXT NOT NULL,
-        conteudo TEXT NOT NULL,
-        observacao TEXT,
-        FOREIGN KEY (aluno_id) REFERENCES usuarios(id)
-    )
-""")
+        CREATE TABLE IF NOT EXISTS aulas (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            aluno_id INTEGER NOT NULL,
+            data TEXT NOT NULL,
+            conteudo TEXT NOT NULL,
+            observacao TEXT,
+            FOREIGN KEY (aluno_id) REFERENCES usuarios(id)
+        )
+    """)
+
     conexao.commit()
     conexao.close()
 
@@ -53,8 +52,13 @@ def adicionar_usuario(nome, usuario, senha, tipo):
         INSERT INTO usuarios
         (nome, usuario, senha, tipo)
         VALUES (?, ?, ?, ?)
-   """, (nome, usuario, proteger_senha(senha), tipo))
-    
+    """, (
+        nome,
+        usuario,
+        proteger_senha(senha),
+        tipo
+    ))
+
     conexao.commit()
     conexao.close()
 
@@ -91,6 +95,7 @@ def listar_alunos():
 
     return resultado
 
+
 def atualizar_senha(usuario, nova_senha):
     conexao = conectar()
     cursor = conexao.cursor()
@@ -99,22 +104,13 @@ def atualizar_senha(usuario, nova_senha):
         UPDATE usuarios
         SET senha = ?
         WHERE usuario = ?
-    """, (proteger_senha(nova_senha), usuario))
+    """, (
+        proteger_senha(nova_senha),
+        usuario
+    ))
 
     conexao.commit()
     conexao.close()
-
-def ver_usuarios():
-    conexao = conectar()
-    cursor = conexao.cursor()
-
-    cursor.execute("SELECT * FROM usuarios")
-
-    resultado = cursor.fetchall()
-
-    conexao.close()
-
-    return resultado
 
 
 def adicionar_aula(aluno_id, data, conteudo, observacao):
@@ -125,7 +121,12 @@ def adicionar_aula(aluno_id, data, conteudo, observacao):
         INSERT INTO aulas
         (aluno_id, data, conteudo, observacao)
         VALUES (?, ?, ?, ?)
-    """, (aluno_id, data, conteudo, observacao))
+    """, (
+        aluno_id,
+        data,
+        conteudo,
+        observacao
+    ))
 
     conexao.commit()
     conexao.close()
