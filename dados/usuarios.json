@@ -1,0 +1,8 @@
+{
+    "professora": {
+        "usuario": "professora",
+        "senha": "1234",
+        "tipo": "professor"
+    },
+    "alunos": []
+}
