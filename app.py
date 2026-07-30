@@ -16,6 +16,20 @@ from database import (
 criar_tabelas()
 
 
+# Controle de sessão
+
+if "usuario_logado" not in st.session_state:
+    st.session_state.usuario_logado = None
+
+if "tipo_usuario" not in st.session_state:
+    st.session_state.tipo_usuario = None
+
+def logout():
+
+    st.session_state.usuario_logado = None
+    st.session_state.tipo_usuario = None
+
+
 # Configuração da página
 st.set_page_config(
     page_title="ClassHub",
