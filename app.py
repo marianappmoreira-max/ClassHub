@@ -60,9 +60,51 @@ elif opcao == "Área do Professor":
     )
 
     if senha == usuarios["professora"]["senha"]:
-        st.success("Login realizado!")
+    st.success("Login realizado!")
 
-        st.write("Painel do professor em construção.")
+    st.subheader("Painel do Professor")
+
+    opcao_professor = st.selectbox(
+        "Escolha uma opção:",
+        [
+            "Cadastrar aluno",
+            "Ver alunos"
+        ]
+    )
+
+    if opcao_professor == "Cadastrar aluno":
+
+        nome = st.text_input("Nome do aluno")
+        usuario = st.text_input("Usuário")
+        senha_aluno = st.text_input(
+            "Senha do aluno",
+            type="password"
+        )
+
+        if st.button("Cadastrar"):
+
+            novo_aluno = {
+                "nome": nome,
+                "usuario": usuario,
+                "senha": senha_aluno,
+                "tipo": "aluno"
+            }
+
+            usuarios["alunos"].append(novo_aluno)
+
+            from database import salvar_usuarios
+            salvar_usuarios(usuarios)
+
+            st.success("Aluno cadastrado com sucesso!")
+
+    elif opcao_professor == "Ver alunos":
+
+        st.write("Alunos cadastrados:")
+
+        for aluno in usuarios["alunos"]:
+            st.write(
+                f"👤 {aluno['nome']} - Usuário: {aluno['usuario']}"
+            )
 
     elif senha:
         st.error("Senha incorreta.")
