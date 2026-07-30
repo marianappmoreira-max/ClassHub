@@ -1,5 +1,5 @@
 import streamlit as st
-import json
+from database import carregar_usuarios
 
 # Carregar usuários
 def carregar_usuarios():
