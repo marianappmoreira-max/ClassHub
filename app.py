@@ -51,6 +51,16 @@ if buscar_usuario("professora") is None:
 
 # Título
 st.title("📚 ClassHub")
+    if st.session_state.usuario_logado:
+
+    st.sidebar.write(
+        f"Logado: {st.session_state.usuario_logado}"
+    )
+
+    if st.sidebar.button("Sair"):
+
+        logout()
+        st.rerun()
 st.write("Sistema de gerenciamento de aulas particulares")
 
 
@@ -102,7 +112,10 @@ elif opcao == "Área do Professor":
 
     if professora and proteger_senha(senha) == professora[3]:
 
-        st.success("Login realizado!")
+    st.session_state.usuario_logado = professora[1]
+    st.session_state.tipo_usuario = professora[4]
+
+    st.success("Login realizado!")
 
         st.subheader("Painel do Professor")
 
@@ -306,11 +319,14 @@ elif opcao == "Área do Aluno":
         aluno = buscar_usuario(usuario)
 
 
-        if aluno and proteger_senha(senha) == aluno[3] and aluno[4] == "aluno":
+       if aluno and proteger_senha(senha) == aluno[3] and aluno[4] == "aluno":
 
-            st.success(
-                f"Bem-vindo, {aluno[1]}!"
-            )
+    st.session_state.usuario_logado = aluno[1]
+    st.session_state.tipo_usuario = aluno[4]
+
+    st.success(
+        f"Bem-vindo, {aluno[1]}!"
+    )
 
 
             st.subheader(
