@@ -1,7 +1,15 @@
 import sqlite3
+import hashlib
 
 
 BANCO = "classhub.db"
+
+
+def proteger_senha(senha):
+    return hashlib.sha256(
+        senha.encode()
+    ).hexdigest()
+
 
 
 def conectar():
@@ -34,8 +42,8 @@ def adicionar_usuario(nome, usuario, senha, tipo):
         INSERT INTO usuarios
         (nome, usuario, senha, tipo)
         VALUES (?, ?, ?, ?)
-    """, (nome, usuario, senha, tipo))
-
+   """, (nome, usuario, proteger_senha(senha), tipo))
+    
     conexao.commit()
     conexao.close()
 
