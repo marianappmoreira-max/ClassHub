@@ -50,53 +50,52 @@ if opcao == "Início":
     )
 
 # Área do professor
+elif opcao == "Área do Professor":
+    st.header("👩‍🏫 Área do Professor")
+    st.write("Área exclusiva da professora.")
 
-if senha == usuarios["professora"]["senha"]:
-    st.success("Login realizado!")
-
-    st.subheader("Painel do Professor")
-
-    opcao_professor = st.selectbox(
-        "Escolha uma opção:",
-        [
-            "Cadastrar aluno",
-            "Ver alunos"
-        ]
+    senha = st.text_input(
+        "Digite a senha:",
+        type="password"
     )
 
-    if opcao_professor == "Cadastrar aluno":
+    if senha == usuarios["professora"]["senha"]:
+        st.success("Login realizado!")
 
-        nome = st.text_input("Nome do aluno")
-        usuario = st.text_input("Usuário")
-        senha_aluno = st.text_input(
-            "Senha do aluno",
-            type="password"
+        st.subheader("Painel do Professor")
+
+        opcao_professor = st.selectbox(
+            "Escolha uma opção:",
+            [
+                "Cadastrar aluno",
+                "Ver alunos"
+            ]
         )
 
-        if st.button("Cadastrar"):
+        if opcao_professor == "Cadastrar aluno":
 
-            novo_aluno = {
-                "nome": nome,
-                "usuario": usuario,
-                "senha": senha_aluno,
-                "tipo": "aluno"
-            }
-
-            usuarios["alunos"].append(novo_aluno)
-
-            from database import salvar_usuarios
-            salvar_usuarios(usuarios)
-
-            st.success("Aluno cadastrado com sucesso!")
-
-    elif opcao_professor == "Ver alunos":
-
-        st.write("Alunos cadastrados:")
-
-        for aluno in usuarios["alunos"]:
-            st.write(
-                f"👤 {aluno['nome']} - Usuário: {aluno['usuario']}"
+            nome = st.text_input("Nome do aluno")
+            usuario = st.text_input("Usuário")
+            senha_aluno = st.text_input(
+                "Senha do aluno",
+                type="password"
             )
+
+            if st.button("Cadastrar"):
+
+                novo_aluno = {
+                    "nome": nome,
+                    "usuario": usuario,
+                    "senha": senha_aluno,
+                    "tipo": "aluno"
+                }
+
+                usuarios["alunos"].append(novo_aluno)
+
+                from database import salvar_usuarios
+                salvar_usuarios(usuarios)
+
+                st.success("Aluno cadastrado com sucesso!")
 
     elif senha:
         st.error("Senha incorreta.")
