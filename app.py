@@ -13,7 +13,7 @@ criar_tabelas()
 
 
 # Criar professora padrão caso não exista
-if True:
+if buscar_usuario("professora") is None:
     adicionar_usuario(
         "Professora",
         "professora",
