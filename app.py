@@ -163,8 +163,8 @@ elif opcao == "Área do Aluno":
         aluno = buscar_usuario(usuario)
 
 
-       if aluno and proteger_senha(senha) == aluno[3] and aluno[4] == "aluno":
-           
+        if aluno and proteger_senha(senha) == aluno[3] and aluno[4] == "aluno":
+
             st.success(f"Bem-vindo, {aluno[1]}!")
 
             st.write("Área do aluno em construção.")
