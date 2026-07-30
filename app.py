@@ -363,13 +363,10 @@ elif opcao == "Área do Aluno":
 
         if aluno and proteger_senha(senha) == aluno[3] and aluno[4] == "aluno":
 
-            st.session_state.usuario_logado = aluno[1]
-            st.session_state.tipo_usuario = aluno[4]
+    st.session_state.usuario_logado = aluno[1]
+    st.session_state.tipo_usuario = aluno[4]
 
-
-            st.success(
-                f"Bem-vindo, {aluno[1]}!"
-            )
+    st.rerun()
 
 
             st.subheader(
