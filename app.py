@@ -5,11 +5,17 @@ from database import (
     adicionar_usuario,
     buscar_usuario,
     listar_alunos,
-    proteger_senha
+    proteger_senha,
+    atualizar_senha
 )
 
 
 criar_tabelas()
+
+atualizar_senha(
+    "professora",
+    "1234"
+)
 
 
 # Criar professora padrão caso não exista
