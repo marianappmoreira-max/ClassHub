@@ -1,15 +1,14 @@
 import streamlit as st
-from database import carregar_usuarios
 
-# Carregar usuários
-import streamlit as st
-from database import carregar_usuarios
+from database import (
+    criar_tabelas,
+    adicionar_usuario,
+    buscar_usuario,
+    listar_alunos
+)
 
 
-usuarios = carregar_usuarios()
-
-
-usuarios = carregar_usuarios()
+criar_tabelas()
 # Configuração da página
 st.set_page_config(
     page_title="ClassHub",
