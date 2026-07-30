@@ -147,3 +147,19 @@ def listar_aulas_aluno(aluno_id):
     conexao.close()
 
     return resultado
+
+def listar_alunos_com_id():
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT id, nome
+        FROM usuarios
+        WHERE tipo = 'aluno'
+    """)
+
+    resultado = cursor.fetchall()
+
+    conexao.close()
+
+    return resultado
