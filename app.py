@@ -1,5 +1,13 @@
 import streamlit as st
+import json
 
+# Carregar usuários
+def carregar_usuarios():
+    with open("dados/usuarios.json", "r", encoding="utf-8") as arquivo:
+        return json.load(arquivo)
+
+
+usuarios = carregar_usuarios()
 # Configuração da página
 st.set_page_config(
     page_title="ClassHub",
@@ -49,7 +57,7 @@ elif opcao == "Área do Professor":
         type="password"
     )
 
-    if senha == "prof123":
+    if senha == usuarios["professora"]["senha"]:
         st.success("Login realizado!")
 
         st.write("Painel do professor em construção.")
