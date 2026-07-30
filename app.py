@@ -50,6 +50,10 @@ if opcao == "Início":
     )
 
 # Área do professor
+
+if senha == usuarios["professora"]["senha"]:
+    st.success()
+    
 elif opcao == "Área do Professor":
     st.header("👩‍🏫 Área do Professor")
     st.write("Área exclusiva da professora.")
