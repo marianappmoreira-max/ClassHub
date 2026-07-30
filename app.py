@@ -5,9 +5,10 @@ from database import (
     adicionar_usuario,
     buscar_usuario,
     listar_alunos,
+    listar_alunos_com_id,
+    adicionar_aula,
     proteger_senha
 )
-
 
 criar_tabelas()
 
@@ -92,12 +93,13 @@ elif opcao == "Área do Professor":
 
 
         opcao_professor = st.selectbox(
-            "Escolha uma opção:",
-            [
-                "Cadastrar aluno",
-                "Ver alunos"
-            ]
-        )
+    "Escolha uma opção:",
+    [
+        "Cadastrar aluno",
+        "Ver alunos",
+        "Cadastrar aula"
+    ]
+)
 
 
         if opcao_professor == "Cadastrar aluno":
@@ -140,6 +142,62 @@ elif opcao == "Área do Professor":
             else:
 
                 st.info("Nenhum aluno cadastrado.")
+                elif opcao_professor == "Cadastrar aula":
+
+    st.subheader("📚 Cadastrar aula")
+
+
+    alunos = listar_alunos_com_id()
+
+
+    if alunos:
+
+        nomes_alunos = {
+            aluno[1]: aluno[0]
+            for aluno in alunos
+        }
+
+
+        aluno_escolhido = st.selectbox(
+            "Escolha o aluno:",
+            nomes_alunos.keys()
+        )
+
+
+        data = st.text_input(
+            "Data da aula"
+        )
+
+
+        conteudo = st.text_input(
+            "Conteúdo estudado"
+        )
+
+
+        observacao = st.text_area(
+            "Observações"
+        )
+
+
+        if st.button("Salvar aula"):
+
+            adicionar_aula(
+                nomes_alunos[aluno_escolhido],
+                data,
+                conteudo,
+                observacao
+            )
+
+            st.success(
+                "Aula cadastrada com sucesso!"
+            )
+
+
+    else:
+
+        st.info(
+            "Cadastre um aluno primeiro."
+        )
 
 
     elif senha:
