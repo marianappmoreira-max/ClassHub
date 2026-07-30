@@ -163,3 +163,25 @@ def listar_alunos_com_id():
     conexao.close()
 
     return resultado
+
+def listar_todas_aulas():
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT 
+            usuarios.nome,
+            aulas.data,
+            aulas.conteudo,
+            aulas.observacao
+        FROM aulas
+        INNER JOIN usuarios
+        ON aulas.aluno_id = usuarios.id
+        ORDER BY aulas.id DESC
+    """)
+
+    resultado = cursor.fetchall()
+
+    conexao.close()
+
+    return resultado
