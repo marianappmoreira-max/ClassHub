@@ -9,6 +9,18 @@ from database import (
 
 
 criar_tabelas()
+
+
+# Criar professora padrão caso não exista
+if buscar_usuario("professora") is None:
+    adicionar_usuario(
+        "Professora",
+        "professora",
+        "1234",
+        "professor"
+    )
+
+
 # Configuração da página
 st.set_page_config(
     page_title="ClassHub",
@@ -16,9 +28,11 @@ st.set_page_config(
     layout="centered"
 )
 
+
 # Título
 st.title("📚 ClassHub")
 st.write("Sistema de gerenciamento de aulas particulares")
+
 
 # Menu inicial
 st.sidebar.title("Menu")
@@ -32,15 +46,18 @@ opcao = st.sidebar.selectbox(
     ]
 )
 
+
 # Página inicial
 if opcao == "Início":
+
     st.header("Bem-vindo ao ClassHub")
+
     st.write(
         """
         Plataforma para organização de aulas particulares.
 
         Aqui você poderá:
-        
+
         - Gerenciar alunos
         - Criar atividades
         - Acompanhar evolução
@@ -48,22 +65,27 @@ if opcao == "Início":
         """
     )
 
+
 # Área do professor
 elif opcao == "Área do Professor":
+
     st.header("👩‍🏫 Área do Professor")
-    st.write("Área exclusiva da professora.")
 
     senha = st.text_input(
         "Digite a senha:",
         type="password"
     )
 
+
     professora = buscar_usuario("professora")
 
-if professora and senha == professora[3]:
+
+    if professora and senha == professora[3]:
+
         st.success("Login realizado!")
 
         st.subheader("Painel do Professor")
+
 
         opcao_professor = st.selectbox(
             "Escolha uma opção:",
@@ -72,6 +94,7 @@ if professora and senha == professora[3]:
                 "Ver alunos"
             ]
         )
+
 
         if opcao_professor == "Cadastrar aluno":
 
@@ -82,40 +105,69 @@ if professora and senha == professora[3]:
                 type="password"
             )
 
+
             if st.button("Cadastrar"):
 
-                novo_aluno = {
-                    "nome": nome,
-                    "usuario": usuario,
-                    "senha": senha_aluno,
-                    "tipo": "aluno"
-                }
-
-                usuarios["alunos"].append(novo_aluno)
-
-                from database import salvar_usuarios
-                salvar_usuarios(usuarios)
+                adicionar_usuario(
+                    nome,
+                    usuario,
+                    senha_aluno,
+                    "aluno"
+                )
 
                 st.success("Aluno cadastrado com sucesso!")
 
+
+        elif opcao_professor == "Ver alunos":
+
+            st.subheader("Alunos cadastrados")
+
+            alunos = listar_alunos()
+
+
+            if alunos:
+
+                for aluno in alunos:
+
+                    st.write(
+                        f"👤 {aluno[0]} - Usuário: {aluno[1]}"
+                    )
+
+            else:
+
+                st.info("Nenhum aluno cadastrado.")
+
+
     elif senha:
+
         st.error("Senha incorreta.")
+
+
 
 # Área do aluno
 elif opcao == "Área do Aluno":
+
     st.header("🎓 Área do Aluno")
 
     usuario = st.text_input("Usuário")
+
     senha = st.text_input(
         "Senha",
         type="password"
     )
 
+
     if st.button("Entrar"):
 
-        if usuario and senha:
-            st.success("Login realizado!")
+        aluno = buscar_usuario(usuario)
+
+
+        if aluno and aluno[3] == senha and aluno[4] == "aluno":
+
+            st.success(f"Bem-vindo, {aluno[1]}!")
+
             st.write("Área do aluno em construção.")
 
         else:
-            st.warning("Preencha todos os campos.")
+
+            st.error("Usuário ou senha incorretos.")
