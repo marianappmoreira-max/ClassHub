@@ -5,6 +5,7 @@ from database import (
     adicionar_usuario,
     buscar_usuario,
     listar_alunos
+    proteger_senha
 )
 
 
@@ -12,7 +13,7 @@ criar_tabelas()
 
 
 # Criar professora padrão caso não exista
-if buscar_usuario("professora") is None:
+if True:
     adicionar_usuario(
         "Professora",
         "professora",
@@ -80,7 +81,7 @@ elif opcao == "Área do Professor":
     professora = buscar_usuario("professora")
 
 
-    if professora and senha == professora[3]:
+    if professora and proteger_senha(senha) == professora[3]:
 
         st.success("Login realizado!")
 
@@ -162,8 +163,8 @@ elif opcao == "Área do Aluno":
         aluno = buscar_usuario(usuario)
 
 
-        if aluno and aluno[3] == senha and aluno[4] == "aluno":
-
+       if aluno and proteger_senha(senha) == aluno[3] and aluno[4] == "aluno":
+           
             st.success(f"Bem-vindo, {aluno[1]}!")
 
             st.write("Área do aluno em construção.")
