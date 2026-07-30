@@ -12,10 +12,6 @@ from database import (
 
 criar_tabelas()
 
-atualizar_senha(
-    "ana",
-    "ana123"
-)
 
 
 
