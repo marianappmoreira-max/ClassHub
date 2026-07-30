@@ -4,7 +4,7 @@ from database import (
     criar_tabelas,
     adicionar_usuario,
     buscar_usuario,
-    listar_alunos
+    listar_alunos,
     proteger_senha
 )
 
