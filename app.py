@@ -8,6 +8,7 @@ from database import (
     listar_alunos_com_id,
     adicionar_aula,
     listar_todas_aulas,
+    buscar_aulas_por_usuario,
     proteger_senha
 )
 
@@ -297,9 +298,37 @@ elif opcao == "Área do Aluno":
                 f"Bem-vindo, {aluno[1]}!"
             )
 
-            st.write(
-                "Área do aluno em construção."
+
+            st.subheader(
+                "📚 Minhas aulas"
             )
+
+
+            aulas = buscar_aulas_por_usuario(usuario)
+
+
+            if aulas:
+
+                for aula in aulas:
+
+                    st.write(
+                        f"""
+📅 Data: {aula[0]}
+
+📖 Conteúdo: {aula[1]}
+
+📝 Observação: {aula[2]}
+
+---
+"""
+                    )
+
+
+            else:
+
+                st.info(
+                    "Você ainda não possui aulas cadastradas."
+                )
 
 
         else:
