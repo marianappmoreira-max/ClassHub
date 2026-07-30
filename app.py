@@ -7,6 +7,7 @@ from database import (
     listar_alunos,
     listar_alunos_com_id,
     adicionar_aula,
+    listar_todas_aulas,
     proteger_senha
 )
 
@@ -92,14 +93,14 @@ elif opcao == "Área do Professor":
 
 
         opcao_professor = st.selectbox(
-            "Escolha uma opção:",
-            [
-                "Cadastrar aluno",
-                "Ver alunos",
-                "Cadastrar aula"
-            ]
-        )
-
+    "Escolha uma opção:",
+    [
+        "Cadastrar aluno",
+        "Ver alunos",
+        "Cadastrar aula",
+        "Ver aulas"
+    ]
+)
 
         # Cadastro de aluno
         if opcao_professor == "Cadastrar aluno":
@@ -208,6 +209,39 @@ elif opcao == "Área do Professor":
 
                 st.info(
                     "Cadastre um aluno primeiro."
+                )
+
+     elif opcao_professor == "Ver aulas":
+
+            st.subheader("📚 Histórico de aulas")
+
+
+            aulas = listar_todas_aulas()
+
+
+            if aulas:
+
+                for aula in aulas:
+
+                    st.write(
+                        f"""
+                        👤 Aluno: {aula[0]}
+
+                        📅 Data: {aula[1]}
+
+                        📖 Conteúdo: {aula[2]}
+
+                        📝 Observação: {aula[3]}
+
+                        ---
+                        """
+                    )
+
+
+            else:
+
+                st.info(
+                    "Nenhuma aula cadastrada."
                 )
 
 
