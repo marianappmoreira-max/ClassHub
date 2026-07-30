@@ -92,3 +92,15 @@ def atualizar_senha(usuario, nova_senha):
 
     conexao.commit()
     conexao.close()
+
+def ver_usuarios():
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("SELECT * FROM usuarios")
+
+    resultado = cursor.fetchall()
+
+    conexao.close()
+
+    return resultado
