@@ -24,13 +24,16 @@ if "usuario_logado" not in st.session_state:
 if "tipo_usuario" not in st.session_state:
     st.session_state.tipo_usuario = None
 
+
 def logout():
 
     st.session_state.usuario_logado = None
     st.session_state.tipo_usuario = None
 
 
+
 # Configuração da página
+
 st.set_page_config(
     page_title="ClassHub",
     page_icon="📚",
@@ -38,7 +41,9 @@ st.set_page_config(
 )
 
 
+
 # Criar professora padrão caso não exista
+
 if buscar_usuario("professora") is None:
 
     adicionar_usuario(
@@ -49,9 +54,20 @@ if buscar_usuario("professora") is None:
     )
 
 
+
 # Título
+
 st.title("📚 ClassHub")
-    if st.session_state.usuario_logado:
+
+st.write(
+    "Sistema de gerenciamento de aulas particulares"
+)
+
+
+
+# Mostrar usuário logado
+
+if st.session_state.usuario_logado:
 
     st.sidebar.write(
         f"Logado: {st.session_state.usuario_logado}"
@@ -61,10 +77,11 @@ st.title("📚 ClassHub")
 
         logout()
         st.rerun()
-st.write("Sistema de gerenciamento de aulas particulares")
+
 
 
 # Menu
+
 st.sidebar.title("Menu")
 
 opcao = st.sidebar.selectbox(
@@ -77,7 +94,9 @@ opcao = st.sidebar.selectbox(
 )
 
 
+
 # Página inicial
+
 if opcao == "Início":
 
     st.header("Bem-vindo ao ClassHub")
@@ -96,10 +115,13 @@ if opcao == "Início":
     )
 
 
+
 # Área do Professor
+
 elif opcao == "Área do Professor":
 
     st.header("👩‍🏫 Área do Professor")
+
 
     senha = st.text_input(
         "Digite a senha:",
@@ -112,12 +134,18 @@ elif opcao == "Área do Professor":
 
     if professora and proteger_senha(senha) == professora[3]:
 
-    st.session_state.usuario_logado = professora[1]
-    st.session_state.tipo_usuario = professora[4]
+        st.session_state.usuario_logado = professora[1]
+        st.session_state.tipo_usuario = professora[4]
 
-    st.success("Login realizado!")
 
-        st.subheader("Painel do Professor")
+        st.success(
+            "Login realizado!"
+        )
+
+
+        st.subheader(
+            "Painel do Professor"
+        )
 
 
         opcao_professor = st.selectbox(
@@ -131,16 +159,20 @@ elif opcao == "Área do Professor":
         )
 
 
+
         # Cadastrar aluno
+
         if opcao_professor == "Cadastrar aluno":
 
             nome = st.text_input(
                 "Nome do aluno"
             )
 
+
             usuario = st.text_input(
                 "Usuário"
             )
+
 
             senha_aluno = st.text_input(
                 "Senha do aluno",
@@ -157,17 +189,21 @@ elif opcao == "Área do Professor":
                     "aluno"
                 )
 
+
                 st.success(
                     "Aluno cadastrado com sucesso!"
                 )
 
 
+
         # Ver alunos
+
         elif opcao_professor == "Ver alunos":
 
             st.subheader(
                 "👥 Alunos cadastrados"
             )
+
 
             alunos = listar_alunos()
 
@@ -188,7 +224,9 @@ elif opcao == "Área do Professor":
                 )
 
 
+
         # Cadastrar aula
+
         elif opcao_professor == "Cadastrar aula":
 
             st.subheader(
@@ -250,7 +288,9 @@ elif opcao == "Área do Professor":
                 )
 
 
+
         # Ver aulas
+
         elif opcao_professor == "Ver aulas":
 
             st.subheader(
@@ -287,6 +327,7 @@ elif opcao == "Área do Professor":
                 )
 
 
+
     elif senha:
 
         st.error(
@@ -296,6 +337,7 @@ elif opcao == "Área do Professor":
 
 
 # Área do aluno
+
 elif opcao == "Área do Aluno":
 
     st.header(
@@ -319,14 +361,15 @@ elif opcao == "Área do Aluno":
         aluno = buscar_usuario(usuario)
 
 
-       if aluno and proteger_senha(senha) == aluno[3] and aluno[4] == "aluno":
+        if aluno and proteger_senha(senha) == aluno[3] and aluno[4] == "aluno":
 
-    st.session_state.usuario_logado = aluno[1]
-    st.session_state.tipo_usuario = aluno[4]
+            st.session_state.usuario_logado = aluno[1]
+            st.session_state.tipo_usuario = aluno[4]
 
-    st.success(
-        f"Bem-vindo, {aluno[1]}!"
-    )
+
+            st.success(
+                f"Bem-vindo, {aluno[1]}!"
+            )
 
 
             st.subheader(
