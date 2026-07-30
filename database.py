@@ -30,6 +30,16 @@ def criar_tabelas():
         )
     """)
 
+    CREATE TABLE IF NOT EXISTS aulas (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        aluno_id INTEGER NOT NULL,
+        data TEXT NOT NULL,
+        conteudo TEXT NOT NULL,
+        observacao TEXT,
+        FOREIGN KEY (aluno_id) REFERENCES usuarios(id)
+    )
+""")
+
     conexao.commit()
     conexao.close()
 
@@ -98,6 +108,35 @@ def ver_usuarios():
     cursor = conexao.cursor()
 
     cursor.execute("SELECT * FROM usuarios")
+
+    resultado = cursor.fetchall()
+
+    conexao.close()
+
+    return resultado
+
+    def adicionar_aula(aluno_id, data, conteudo, observacao):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        INSERT INTO aulas
+        (aluno_id, data, conteudo, observacao)
+        VALUES (?, ?, ?, ?)
+    """, (aluno_id, data, conteudo, observacao))
+
+    conexao.commit()
+    conexao.close()
+
+    def listar_aulas_aluno(aluno_id):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT data, conteudo, observacao
+        FROM aulas
+        WHERE aluno_id = ?
+    """, (aluno_id,))
 
     resultado = cursor.fetchall()
 
