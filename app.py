@@ -52,18 +52,6 @@ if opcao == "Início":
 # Área do professor
 
 if senha == usuarios["professora"]["senha"]:
-    st.success()
-    
-elif opcao == "Área do Professor":
-    st.header("👩‍🏫 Área do Professor")
-    st.write("Área exclusiva da professora.")
-
-    senha = st.text_input(
-        "Digite a senha:",
-        type="password"
-    )
-
-    if senha == usuarios["professora"]["senha"]:
     st.success("Login realizado!")
 
     st.subheader("Painel do Professor")
