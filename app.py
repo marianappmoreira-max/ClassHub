@@ -9,6 +9,7 @@ from database import (
     adicionar_aula,
     listar_todas_aulas,
     buscar_aulas_por_usuario,
+    resumo_aluno,
     proteger_senha
 )
 
@@ -343,6 +344,40 @@ elif opcao == "Área do Aluno":
 
         st.success(
             f"Bem-vindo, {st.session_state.usuario_logado}!"
+        )
+
+        resumo = resumo_aluno(
+    st.session_state.usuario_logado
+)
+
+
+if resumo:
+
+    st.subheader(
+        "📊 Meu progresso"
+    )
+
+
+    st.write(
+        f"📚 Aulas realizadas: {resumo['quantidade']}"
+    )
+
+
+    if resumo["ultima_aula"]:
+
+        st.write(
+            "📝 Última aula:"
+        )
+
+
+        st.write(
+            f"""
+📅 Data: {resumo['ultima_aula'][0]}
+
+📖 Conteúdo: {resumo['ultima_aula'][1]}
+
+📝 Observação: {resumo['ultima_aula'][2]}
+"""
         )
 
 
