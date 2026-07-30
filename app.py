@@ -93,14 +93,15 @@ elif opcao == "Área do Professor":
 
 
         opcao_professor = st.selectbox(
-    "Escolha uma opção:",
-    [
-        "Cadastrar aluno",
-        "Ver alunos",
-        "Cadastrar aula",
-        "Ver aulas"
-    ]
-)
+            "Escolha uma opção:",
+            [
+                "Cadastrar aluno",
+                "Ver alunos",
+                "Cadastrar aula",
+                "Ver aulas"
+            ]
+        )
+
 
         # Cadastro de aluno
         if opcao_professor == "Cadastrar aluno":
@@ -211,7 +212,9 @@ elif opcao == "Área do Professor":
                     "Cadastre um aluno primeiro."
                 )
 
-     elif opcao_professor == "Ver aulas":
+
+        # Ver aulas
+        elif opcao_professor == "Ver aulas":
 
             st.subheader("📚 Histórico de aulas")
 
@@ -287,4 +290,5 @@ elif opcao == "Área do Aluno":
 
             st.error(
                 "Usuário ou senha incorretos."
+            )
             )
