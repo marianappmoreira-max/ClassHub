@@ -612,3 +612,60 @@ if (
         st.info(
             "Você ainda não possui aulas cadastradas."
         )
+
+def resumo_aluno(usuario):
+
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+
+    cursor.execute("""
+        SELECT id, nome
+        FROM usuarios
+        WHERE usuario = ?
+    """, (usuario,))
+
+
+    aluno = cursor.fetchone()
+
+
+    if aluno is None:
+
+        conexao.close()
+        return None
+
+
+    aluno_id = aluno[0]
+    nome = aluno[1]
+
+
+    cursor.execute("""
+        SELECT COUNT(*)
+        FROM aulas
+        WHERE aluno_id = ?
+    """, (aluno_id,))
+
+
+    quantidade_aulas = cursor.fetchone()[0]
+
+
+    cursor.execute("""
+        SELECT data, conteudo, observacao
+        FROM aulas
+        WHERE aluno_id = ?
+        ORDER BY id DESC
+        LIMIT 1
+    """ , (aluno_id,))
+
+
+    ultima_aula = cursor.fetchone()
+
+
+    conexao.close()
+
+
+    return {
+        "nome": nome,
+        "quantidade": quantidade_aulas,
+        "ultima_aula": ultima_aula
+    }
