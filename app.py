@@ -13,10 +13,14 @@ from database import (
 )
 
 
-# Criar banco
+st.set_page_config(
+    page_title="ClassHub",
+    page_icon="📚",
+    layout="centered"
+)
+
 
 criar_tabelas()
-
 
 
 # Sessão
@@ -33,16 +37,6 @@ def logout():
 
     st.session_state.usuario_logado = None
     st.session_state.tipo_usuario = None
-
-
-
-# Configuração
-
-st.set_page_config(
-    page_title="ClassHub",
-    page_icon="📚",
-    layout="centered"
-)
 
 
 
@@ -69,7 +63,7 @@ st.write(
 
 
 
-# Usuário logado
+# Sessão ativa
 
 if st.session_state.usuario_logado:
 
@@ -99,13 +93,11 @@ opcao = st.sidebar.selectbox(
 
 
 
-# INÍCIO
+# Início
 
 if opcao == "Início":
 
-    st.header(
-        "Bem-vindo ao ClassHub"
-    )
+    st.header("Bem-vindo ao ClassHub")
 
     st.write(
         """
@@ -122,13 +114,11 @@ if opcao == "Início":
 
 
 
-# PROFESSOR
+# Professor
 
 elif opcao == "Área do Professor":
 
-    st.header(
-        "👩‍🏫 Área do Professor"
-    )
+    st.header("👩‍🏫 Área do Professor")
 
 
     senha = st.text_input(
@@ -144,7 +134,8 @@ elif opcao == "Área do Professor":
 
     if professora and proteger_senha(senha) == professora[3]:
 
-        st.session_state.usuario_logado = professora[1]
+
+        st.session_state.usuario_logado = professora[2]
         st.session_state.tipo_usuario = professora[4]
 
 
@@ -164,8 +155,7 @@ elif opcao == "Área do Professor":
         )
 
 
-
-        # Cadastrar aluno
+        # Cadastro aluno
 
         if opcao_professor == "Cadastrar aluno":
 
@@ -173,11 +163,9 @@ elif opcao == "Área do Professor":
                 "Nome do aluno"
             )
 
-
             usuario = st.text_input(
                 "Usuário"
             )
-
 
             senha_aluno = st.text_input(
                 "Senha do aluno",
@@ -201,7 +189,7 @@ elif opcao == "Área do Professor":
 
 
 
-        # Ver alunos
+        # Lista alunos
 
         elif opcao_professor == "Ver alunos":
 
@@ -229,7 +217,7 @@ elif opcao == "Área do Professor":
 
 
 
-        # Cadastrar aula
+        # Cadastro aula
 
         elif opcao_professor == "Cadastrar aula":
 
@@ -242,6 +230,7 @@ elif opcao == "Área do Professor":
 
 
             if alunos:
+
 
                 alunos_dict = {
                     aluno[1]: aluno[0]
@@ -270,9 +259,8 @@ elif opcao == "Área do Professor":
                 )
 
 
-                if st.button(
-                    "Salvar aula"
-                ):
+                if st.button("Salvar aula"):
+
 
                     adicionar_aula(
                         alunos_dict[aluno_escolhido],
@@ -295,7 +283,7 @@ elif opcao == "Área do Professor":
 
 
 
-        # Ver aulas
+        # Histórico aulas
 
         elif opcao_professor == "Ver aulas":
 
@@ -325,7 +313,6 @@ elif opcao == "Área do Professor":
 """
                     )
 
-
             else:
 
                 st.info(
@@ -342,7 +329,7 @@ elif opcao == "Área do Professor":
 
 
 
-# ALUNO
+# Área aluno
 
 elif opcao == "Área do Aluno":
 
@@ -352,6 +339,7 @@ elif opcao == "Área do Aluno":
 
 
     if st.session_state.tipo_usuario == "aluno":
+
 
         st.success(
             f"Bem-vindo, {st.session_state.usuario_logado}!"
@@ -384,7 +372,6 @@ elif opcao == "Área do Aluno":
 """
                 )
 
-
         else:
 
             st.info(
@@ -392,7 +379,9 @@ elif opcao == "Área do Aluno":
             )
 
 
+
     else:
+
 
         usuario = st.text_input(
             "Usuário"
@@ -405,9 +394,7 @@ elif opcao == "Área do Aluno":
         )
 
 
-        if st.button(
-            "Entrar"
-        ):
+        if st.button("Entrar"):
 
 
             aluno = buscar_usuario(
@@ -417,7 +404,8 @@ elif opcao == "Área do Aluno":
 
             if aluno and proteger_senha(senha) == aluno[3] and aluno[4] == "aluno":
 
-                st.session_state.usuario_logado = aluno[1]
+
+                st.session_state.usuario_logado = aluno[2]
                 st.session_state.tipo_usuario = aluno[4]
 
                 st.rerun()
