@@ -185,3 +185,25 @@ def listar_todas_aulas():
     conexao.close()
 
     return resultado
+
+def buscar_aulas_por_usuario(usuario):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT
+            aulas.data,
+            aulas.conteudo,
+            aulas.observacao
+        FROM aulas
+        INNER JOIN usuarios
+        ON aulas.aluno_id = usuarios.id
+        WHERE usuarios.usuario = ?
+        ORDER BY aulas.id DESC
+    """, (usuario,))
+
+    resultado = cursor.fetchall()
+
+    conexao.close()
+
+    return resultado
