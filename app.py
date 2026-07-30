@@ -12,10 +12,7 @@ from database import (
 
 criar_tabelas()
 
-atualizar_senha(
-    "professora",
-    "1234"
-)
+
 
 
 # Criar professora padrão caso não exista
