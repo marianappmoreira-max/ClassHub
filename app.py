@@ -32,8 +32,6 @@ def logout():
 
 
 
-# Configuração da página
-
 st.set_page_config(
     page_title="ClassHub",
     page_icon="📚",
@@ -42,7 +40,7 @@ st.set_page_config(
 
 
 
-# Criar professora padrão caso não exista
+# Criar professora padrão
 
 if buscar_usuario("professora") is None:
 
@@ -55,8 +53,6 @@ if buscar_usuario("professora") is None:
 
 
 
-# Título
-
 st.title("📚 ClassHub")
 
 st.write(
@@ -65,7 +61,7 @@ st.write(
 
 
 
-# Mostrar usuário logado
+# Mostrar sessão
 
 if st.session_state.usuario_logado:
 
@@ -80,9 +76,8 @@ if st.session_state.usuario_logado:
 
 
 
-# Menu
-
 st.sidebar.title("Menu")
+
 
 opcao = st.sidebar.selectbox(
     "Escolha uma opção:",
@@ -95,7 +90,7 @@ opcao = st.sidebar.selectbox(
 
 
 
-# Página inicial
+# Início
 
 if opcao == "Início":
 
@@ -116,7 +111,7 @@ if opcao == "Início":
 
 
 
-# Área do Professor
+# Professor
 
 elif opcao == "Área do Professor":
 
@@ -143,11 +138,6 @@ elif opcao == "Área do Professor":
         )
 
 
-        st.subheader(
-            "Painel do Professor"
-        )
-
-
         opcao_professor = st.selectbox(
             "Escolha uma opção:",
             [
@@ -158,9 +148,6 @@ elif opcao == "Área do Professor":
             ]
         )
 
-
-
-        # Cadastrar aluno
 
         if opcao_professor == "Cadastrar aluno":
 
@@ -189,14 +176,11 @@ elif opcao == "Área do Professor":
                     "aluno"
                 )
 
-
                 st.success(
                     "Aluno cadastrado com sucesso!"
                 )
 
 
-
-        # Ver alunos
 
         elif opcao_professor == "Ver alunos":
 
@@ -216,7 +200,6 @@ elif opcao == "Área do Professor":
                         f"👤 {aluno[0]} - Usuário: {aluno[1]}"
                     )
 
-
             else:
 
                 st.info(
@@ -224,8 +207,6 @@ elif opcao == "Área do Professor":
                 )
 
 
-
-        # Cadastrar aula
 
         elif opcao_professor == "Cadastrar aula":
 
@@ -289,8 +270,6 @@ elif opcao == "Área do Professor":
 
 
 
-        # Ver aulas
-
         elif opcao_professor == "Ver aulas":
 
             st.subheader(
@@ -319,7 +298,6 @@ elif opcao == "Área do Professor":
 """
                     )
 
-
             else:
 
                 st.info(
@@ -336,7 +314,7 @@ elif opcao == "Área do Professor":
 
 
 
-# Área do aluno
+# Aluno
 
 elif opcao == "Área do Aluno":
 
@@ -363,26 +341,52 @@ elif opcao == "Área do Aluno":
 
         if aluno and proteger_senha(senha) == aluno[3] and aluno[4] == "aluno":
 
-    st.session_state.usuario_logado = aluno[1]
-    st.session_state.tipo_usuario = aluno[4]
+            st.session_state.usuario_logado = aluno[1]
+            st.session_state.tipo_usuario = aluno[4]
 
-    st.rerun()
+            st.rerun()
 
 
-            st.subheader(
-                "📚 Minhas aulas"
+        else:
+
+            st.error(
+                "Usuário ou senha incorretos."
             )
 
 
-            aulas = buscar_aulas_por_usuario(usuario)
+
+# Painel do aluno logado
+
+if (
+    st.session_state.tipo_usuario == "aluno"
+):
+
+    st.header(
+        "🎓 Área do Aluno"
+    )
 
 
-            if aulas:
+    st.success(
+        f"Bem-vindo, {st.session_state.usuario_logado}!"
+    )
 
-                for aula in aulas:
 
-                    st.write(
-                        f"""
+    st.subheader(
+        "📚 Minhas aulas"
+    )
+
+
+    aulas = buscar_aulas_por_usuario(
+        st.session_state.usuario_logado
+    )
+
+
+    if aulas:
+
+        for aula in aulas:
+
+            st.write(
+                f"""
 📅 Data: {aula[0]}
 
 📖 Conteúdo: {aula[1]}
@@ -391,18 +395,10 @@ elif opcao == "Área do Aluno":
 
 ---
 """
-                    )
-
-
-            else:
-
-                st.info(
-                    "Você ainda não possui aulas cadastradas."
-                )
-
-
-        else:
-
-            st.error(
-                "Usuário ou senha incorretos."
             )
+
+    else:
+
+        st.info(
+            "Você ainda não possui aulas cadastradas."
+        )
