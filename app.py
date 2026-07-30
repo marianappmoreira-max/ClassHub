@@ -5,8 +5,7 @@ from database import (
     adicionar_usuario,
     buscar_usuario,
     listar_alunos,
-    proteger_senha,
-    atualizar_senha
+    proteger_senha
 )
 
 
