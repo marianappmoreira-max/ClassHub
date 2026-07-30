@@ -39,7 +39,7 @@ st.title("📚 ClassHub")
 st.write("Sistema de gerenciamento de aulas particulares")
 
 
-# Menu inicial
+# Menu
 st.sidebar.title("Menu")
 
 opcao = st.sidebar.selectbox(
@@ -71,7 +71,7 @@ if opcao == "Início":
     )
 
 
-# Área do professor
+# Área do Professor
 elif opcao == "Área do Professor":
 
     st.header("👩‍🏫 Área do Professor")
@@ -103,12 +103,16 @@ elif opcao == "Área do Professor":
         )
 
 
-        # Cadastro de aluno
+        # Cadastrar aluno
         if opcao_professor == "Cadastrar aluno":
 
-            nome = st.text_input("Nome do aluno")
+            nome = st.text_input(
+                "Nome do aluno"
+            )
 
-            usuario = st.text_input("Usuário")
+            usuario = st.text_input(
+                "Usuário"
+            )
 
             senha_aluno = st.text_input(
                 "Senha do aluno",
@@ -133,7 +137,9 @@ elif opcao == "Área do Professor":
         # Ver alunos
         elif opcao_professor == "Ver alunos":
 
-            st.subheader("Alunos cadastrados")
+            st.subheader(
+                "👥 Alunos cadastrados"
+            )
 
             alunos = listar_alunos()
 
@@ -146,6 +152,7 @@ elif opcao == "Área do Professor":
                         f"👤 {aluno[0]} - Usuário: {aluno[1]}"
                     )
 
+
             else:
 
                 st.info(
@@ -156,7 +163,9 @@ elif opcao == "Área do Professor":
         # Cadastrar aula
         elif opcao_professor == "Cadastrar aula":
 
-            st.subheader("📚 Cadastrar aula")
+            st.subheader(
+                "📚 Cadastrar aula"
+            )
 
 
             alunos = listar_alunos_com_id()
@@ -216,7 +225,9 @@ elif opcao == "Área do Professor":
         # Ver aulas
         elif opcao_professor == "Ver aulas":
 
-            st.subheader("📚 Histórico de aulas")
+            st.subheader(
+                "📚 Histórico de aulas"
+            )
 
 
             aulas = listar_todas_aulas()
@@ -228,16 +239,16 @@ elif opcao == "Área do Professor":
 
                     st.write(
                         f"""
-                        👤 Aluno: {aula[0]}
+👤 Aluno: {aula[0]}
 
-                        📅 Data: {aula[1]}
+📅 Data: {aula[1]}
 
-                        📖 Conteúdo: {aula[2]}
+📖 Conteúdo: {aula[2]}
 
-                        📝 Observação: {aula[3]}
+📝 Observação: {aula[3]}
 
-                        ---
-                        """
+---
+"""
                     )
 
 
@@ -250,14 +261,19 @@ elif opcao == "Área do Professor":
 
     elif senha:
 
-        st.error("Senha incorreta.")
+        st.error(
+            "Senha incorreta."
+        )
 
 
 
 # Área do aluno
 elif opcao == "Área do Aluno":
 
-    st.header("🎓 Área do Aluno")
+    st.header(
+        "🎓 Área do Aluno"
+    )
+
 
     usuario = st.text_input(
         "Usuário"
@@ -290,5 +306,4 @@ elif opcao == "Área do Aluno":
 
             st.error(
                 "Usuário ou senha incorretos."
-            )
             )
